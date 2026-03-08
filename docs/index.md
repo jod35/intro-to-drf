@@ -4,6 +4,7 @@
 The Django rest framework is a powerful set of tools that enables developers build APIs on top of the applications they build with Django. It helps developers expose data and functionality of a Django web application to other applications over the internet.
 
 Such apps include:
+
 - web apps (built with JS frameworks)
 - mobile apps
 - desktop apps
@@ -20,20 +21,21 @@ Serializers convert python objects to formats understandable by applications i.e
 ![json from serializer ](./imgs/Screenshot%202026-03-08%20112242.png)
 
 2. API Views
-    We can implment both function based and class based views to handle common HTTP methods like
-    - **GET** : Retrieve data
-    - **POST**: Create data
-    - **PATCH**: partially update data
-    - **PUT**: Update data
-    - **DELETE**: Remove data
+We can implment both function based and class based views to handle common HTTP methods like
+
+- **GET** : Retrieve data
+- **POST**: Create data 
+- **PATCH**: partially update data
+- **PUT**: Update data
+- **DELETE**: Remove data
 
 3. Authentication
-    DRF build on top of the Django authentication application toimplement common auth flows like
-    - Session based authentication
-    - Token authentication 
-    - JWT authentication
-    
-    Authentication allows users to identify themselves so that they can get access to protected parts of an application.
+DRF build on top of the Django authentication application toimplement common auth flows like
+- Session based authentication
+- Token authentication 
+- JWT authentication
+
+Authentication allows users to identify themselves so that they can get access to protected parts of an application.
 
 4. Authorization
    DRF provides classes or mixins for controlling who gets access to what in an application.
@@ -53,8 +55,8 @@ Serializers convert python objects to formats understandable by applications i.e
 DRF follows the architectural pattern known as [REST](https://en.wikipedia.org/wiki/REST)
 
 REST in full is Representation State Transfer. In REST, 
--   resources are repreneted as URLs.
--   HTTP methods point to actions on those resources
+- resources are repreneted as URLs.
+- HTTP methods point to actions on those resources
 
 In our little product management API, 
 

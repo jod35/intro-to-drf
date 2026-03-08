@@ -44,3 +44,23 @@ pip freeze > requirements.txt
 The above command gets the ouput of the `pip freeze` and writes it to the file **requirements.txt** allowing you to create a reproducible list of dependencies ith their exact versions
 
 ### Creating a Django Project
+Installing django gives us a new command `django-admin` in the environment so we can run it to create a new django project.
+
+```sh
+django-admin startproject core .
+```
+
+The `django-admin` command is Django's CLI management utility that enables you perform most of Django's tasks. The `startproject` sub-command makes Django create some boilerplate we can use to get up and running.
+
+The command will create a **core** folder and a **manage.py** file. The folder is a normal Django project with settings and other important configurations for our app. The **manage.py** file is the file we shall use from now on to manage Django.
+
+### Running the server
+Let us run the server with 
+
+```sh
+python manage.py runserver
+```
+
+This will start a development server on **https://localhost:8000** as shown below,
+
+![django installation successful](./imgs/hello%20world.png)

@@ -1,6 +1,6 @@
 site_name: Building APIs With Django REST Framework
 nav:
-  - Home: index.md
-  - Building a CRUD REST API: chapter2.md
+  - Introduction: index.md
+  - Setting Up a project: chapter2.md
 theme:
   name: material
