@@ -1,66 +1,69 @@
 # Building a CRUD API
-Now that we have built the foundation, let us get our hands dirty and build a simple CRUD REST API with DRF.
+Now that we have built the foundation, let's build a simple CRUD REST API with Django REST Framework (DRF).
 
-## Project Set Up
-We have to create an environment in which our dependencies will be install in isolation from our Python installtion systemwide, you can use **venv** with PIP in the following way.
+## Project Setup
+We need to create an isolated environment for our dependencies using **venv** and PIP.
 
 ### Create a new empty folder
-Let us begin by creating a new folder any where we prefer on our file-system , call it `product-inventory`
+Create a new folder anywhere on your file system and name it `product-inventory`.
 
-### Create a vitual environment 
-Creating  a virtual environment with venve is going to be done using the following command.
+### Create a virtual environment
+Create a virtual environment using the following command:
 
 ```sh
 c:\Users\jod35\product-inventory> python -m venv env
 ```
 
-This will create a new folder called **env** in your project folder. 
+This creates a new folder called **env** in your project directory.
 
 ### Activate the environment
-Activate the environment with the following command.
+Activate the environment with the appropriate command for your operating system.
 
-On Windows,
+On Windows:
 ```sh
-c:\Users\jod35\product-inventory> env\Scripts\activate # Windows
-```
-On Linux Based System,
-```sh
-$ source env/bin/activate # Linux / Unix-based system 
+c:\Users\jod35\product-inventory> env\Scripts\activate
 ```
 
-With your virtualenv set up, you should now be ready to install Django. 
+On Linux or Unix-based systems:
+```sh
+$ source env/bin/activate
+```
 
-### Installing Django and Django REST Framework
-We will use PIP to do this through the command
+With your virtual environment active, you're ready to install Django.
+
+### Install Django and Django REST Framework
+Use PIP to install the required packages:
+
 ```
 pip install djangorestframework
 ```
 
-To keep track of our necessary dependencies for the project, we are going to create a special **requirements.txt** file which will be used to install project dependencies if we are to deploy or ditribute our code to other developers.
+Create a **requirements.txt** file to track dependencies for deployment or sharing with other developers:
 
 ```
 pip freeze > requirements.txt
 ```
-The above command gets the ouput of the `pip freeze` and writes it to the file **requirements.txt** allowing you to create a reproducible list of dependencies ith their exact versions
 
-### Creating a Django Project
-Installing django gives us a new command `django-admin` in the environment so we can run it to create a new django project.
+This command captures all installed packages and their versions in **requirements.txt**.
+
+### Create a Django Project
+The Django installation provides the `django-admin` command. Use it to create a new project:
 
 ```sh
 django-admin startproject core .
 ```
 
-The `django-admin` command is Django's CLI management utility that enables you perform most of Django's tasks. The `startproject` sub-command makes Django create some boilerplate we can use to get up and running.
+The `django-admin` command is Django's CLI utility for managing tasks. The `startproject` subcommand creates boilerplate code to get started.
 
-The command will create a **core** folder and a **manage.py** file. The folder is a normal Django project with settings and other important configurations for our app. The **manage.py** file is the file we shall use from now on to manage Django.
+This command creates a **core** folder and a **manage.py** file. The **core** folder contains Django project settings and configurations, while **manage.py** is used to manage your Django application going forward.
 
-### Running the server
-Let us run the server with 
+### Run the server
+Start the development server:
 
 ```sh
 python manage.py runserver
 ```
 
-This will start a development server on **https://localhost:8000** as shown below,
+This starts a development server at **http://localhost:8000**.
 
-![django installation successful](./imgs/hello%20world.png)
+![Django installation successful](./imgs/hello%20world.png)
