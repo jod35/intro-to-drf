@@ -14,7 +14,7 @@ CRUD is an acronym representing the four fundamental operations performed on dat
 
 CRUD operations are essential for data-driven applications and form the foundation of business logic for handling data persistence and manipulation.
 
-For a REST API, we should design endpoints using CRUD principles. Here's how we'll map HTTP methods to CRUD operations:
+For a REST API, we should design endpoints using CRUD principles. Here's how we map HTTP methods to CRUD operations:
 
 | Action | Method | Endpoint | Description |
 |---|---|---|---|
@@ -27,7 +27,7 @@ For a REST API, we should design endpoints using CRUD principles. Here's how we'
 
 > ***Note***
 >
-> We're not using the RESTful naming convention yet, but we'll refactor our routes later to follow best practices.
+> We're not following RESTful naming conventions yet, but we'll refactor our routes later to follow best practices.
 
 This mapping of HTTP requests to CRUD actions forms the foundation for the API we'll build in this chapter.
 
@@ -120,7 +120,7 @@ def hello_world(request):
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", hello_world, name="hello_world"),
-    path("products/", include("products.urls")),
+    path("api/products/", include("products.urls")),
 ]
 ```
 
@@ -255,7 +255,7 @@ def product_list(request):
 
 We instantiate `ProductSerializer` with our queryset and set `many=True` because we're serializing a list of products. The serializer converts the data to JSON format.
 
-Navigate to **http://localhost:8000/products** to see the list:
+Navigate to **http://localhost:8000/api/products** to see the list:
 
 ![List all products](./imgs/lis%20all%20products.png)
 
@@ -263,7 +263,6 @@ Navigate to **http://localhost:8000/products** to see the list:
 Let's create a dedicated serializer for adding products. This allows us to specify which fields users can submit when creating a product:
 
 ```py
-
 # products/serializers.py
 
 from .models import Product
@@ -317,7 +316,7 @@ def product_create(request):
 
 This endpoint receives data from the client, validates it through `ProductCreateSerializer`, and saves it if valid. If validation fails, it returns error details.
 
-Navigate to **http://localhost:8000/products/create** to test the endpoint:
+Navigate to **http://localhost:8000/api/products/create** to test the endpoint:
 
 ![product create on browsable API DRF](./imgs/product%20create%20browsable%20API%20DRF.png)
 
@@ -330,7 +329,7 @@ Submitting valid data returns a successful response:
 ![product create on browsable API successful](./imgs/product%20create%20success.png)
 
 ### Read (Retrieve) an Item
-To retrieve an item by id we shall add the following code to our products **views.py**
+To retrieve an item by ID, add the following code to **products/views.py**:
 
 ```py
 # products/views.py
@@ -346,30 +345,29 @@ def product_detail(request, pk):
 
     except Product.DoesNotExist:
         return Response(
-            data={"error": "Product Not Found"}, status=status.HTTP_404_NOT_FOUND
+            data={"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND
         )
 ```
 
-To retrieve an item (product), we shall first of all query the database to return an item with the given `pk` and use our `ProductSerializer` class to then turn that into the response data (JSON). If not found, we shall return an error ith a status code of 404 not found else we return a successful response with the item.
+To retrieve an item, we query the database for a product with the given `pk` and use our `ProductSerializer` class to convert it to JSON format. If the product is not found, we return an error with a 404 status code; otherwise, we return a successful response with the item.
 
-To test this, let us navigate to **http://localhost:8000/products/1**.
+To test this endpoint, navigate to **http://localhost:8000/api/products/1**:
 
 ![retrieve product on Browsable API](./imgs/get%20product%20by%20ID.png)
 
-Let us try to get an item for an ID that does not exist in the database.
+Now let's test retrieving a product with an ID that doesn't exist in the database:
 
-![retrieve non existent item](./imgs/get%20non%20existent%20product.png)
+![retrieve non-existent item](./imgs/get%20non%20existent%20product.png)
 
-### Update an item
-Let us add the following code to our views. 
+### Update an Item
+Add the following code to your views:
 
 ```py
 @api_view(["PATCH"])
 def product_update(request, pk):
     try:
         product = Product.objects.get(pk=pk)
-        data = request.data
-        serializer = ProductCreateSerializer(data=data, instance=product)
+        serializer = ProductCreateSerializer(data=request.data, instance=product)
 
         if serializer.is_valid():
             serializer.save()
@@ -377,7 +375,8 @@ def product_update(request, pk):
                 data={
                     "message": "Product updated successfully",
                     "data": serializer.data,
-                }
+                },
+                status=status.HTTP_200_OK
             )
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -387,13 +386,14 @@ def product_update(request, pk):
         )
 ```
 
-The code above will get the product with the `pk` and if not found, we shall return an error to show that the product is not found. we then get the update data `data` from the request object and create an instance of the `ProductCreateSerializer` (you can create another serializer for updating according to what you choose) , we then follow a process similar to what we had in the creation where we check if the serializer is valid and save else we show any validation errors raised.
+This view retrieves the product with the given `pk`. If not found, it returns a 404 error. Otherwise, it validates the update data using `ProductCreateSerializer`. If valid, it saves the changes and returns a success response; otherwise, it returns any validation errors.
 
-Testing it out will look like this.
+Testing the update endpoint looks like this:
+
 ![updating the product](./imgs/Successful%20update.png)
 
-### Delete an item
-To delete an item is simple, all we have to do is to query for the item, delete it and returning the appropriate status code.
+### Delete an Item
+To delete an item, query for it, delete it, and return the appropriate status code:
 
 ```py
 # products/views.py
@@ -404,9 +404,13 @@ def product_delete(request, pk):
         product = Product.objects.get(pk=pk)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    except:
+    except Product.DoesNotExist:
         return Response(
             data={"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND
         )
 ```
+
+![Delete request in Postman](./imgs/postman%20delete%20request.png)
+
+In this example, I'm using an actual API client, [Postman](https://www.postman.com/), to make the request. While Django REST Framework's browsable API can handle DELETE requests through class-based views, those are topics we'll explore in the next chapter.
 

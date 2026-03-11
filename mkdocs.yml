@@ -4,10 +4,27 @@ nav:
   - Setting Up a project: chapter2.md
   - Your first API Endpoint: chapter3.md
   - Building a CRUD API: chapter4.md
+  - Class Based Views: chapter5.md
 theme:
   name: material
+  palette:
+    - scheme: default
+      primary: red
+      accent: red
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: red
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
 
 markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight:
       use_pygments: true
+
+plugins:
+  - glightbox
