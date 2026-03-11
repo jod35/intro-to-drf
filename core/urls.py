@@ -17,17 +17,17 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-@api_view(["GET"])
-def hello_world(request):
-    return Response(data={"message": "Hello, World!"}, status=200)
+class HelloWorldView(APIView):
+    def get(self, request):
+        return Response(data={"message": "Hello, World!"}, status=200)
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", hello_world, name="hello_world"),
+    path("", HelloWorldView.as_view(), name="hello_world"),
     path("products/", include("products.urls")),
 ]
