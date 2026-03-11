@@ -1,7 +1,7 @@
 # Building a CRUD API
 
 ## Introduction
-We've created a simple API route that returns a basic response. Now let's expand on this foundation by building a CRUD API.
+We've created a simple API route that returns a basic response. Now let's expand on this foundation by building a complete CRUD API.
 
 CRUD is an acronym representing the four fundamental operations performed on data in an application:
 
@@ -12,7 +12,7 @@ CRUD is an acronym representing the four fundamental operations performed on dat
 | U | **Update** data |
 | D | **Delete** data |
 
-CRUD operations are essential for data-driven applications and form the foundation of business logic for handling data.
+CRUD operations are essential for data-driven applications and form the foundation of business logic for handling data persistence and manipulation.
 
 For a REST API, we should design endpoints using CRUD principles. Here's how we'll map HTTP methods to CRUD operations:
 
@@ -77,9 +77,6 @@ def product_detail(request, pk): ...
 def product_create(request): ...
 
 @api_view(["PATCH"])
-def product_partial_update(request, pk): ...
-
-@api_view(["PUT"])
 def product_update(request, pk): ...
 
 @api_view(["DELETE"])
@@ -101,11 +98,6 @@ urlpatterns = [
     path("<int:pk>/", views.product_detail, name="product-detail"),
     path("create/", views.product_create, name="product-create"),
     path("<int:pk>/update/", views.product_update, name="product-update"),
-    path(
-        "<int:pk>/partial-update/",
-        views.product_partial_update,
-        name="product-partial-update",
-    ),
     path("<int:pk>/delete/", views.product_delete, name="product-delete"),
 ]
 ```
@@ -131,8 +123,9 @@ urlpatterns = [
     path("products/", include("products.urls")),
 ]
 ```
-## Creating the model
-Let us now add the data model for this simple app. In the **models.py** for the products app, let us add the following code.
+
+## Creating the Model
+Now let's add the data model for our application. In the **models.py** file of the products app, add the following code:
 
 ```py
 # products/models.py
@@ -147,10 +140,11 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
 ```
 
-This will create a `Product` model that will form the basis of the simple application. Let us register this app to be accessed on the admin. Add the following code in your **admin.py** in the product app.
+This creates a `Product` model that forms the basis of our simple application. The model includes fields for product name, description, price, and stock quantity.
+
+Next, register this model with Django Admin. Add the following code to **products/admin.py**:
 
 ```py
 # products/admin.py
@@ -161,50 +155,47 @@ from products.models import Product
 # Register your models here.
 
 admin.site.register(Product)
-
 ```
 
-
-Stop our server and run the following command.
+Stop your server and run the following command to create a migration file for the model:
 
 ```sh
 python manage.py makemigrations
 ```
 
-This will create the migration file for the model we have created.
+Then apply the migration to your database:
 
 ```sh
 python manage.py migrate
 ```
 
-This will apply the changes to the database.
+## The Django Admin App
+To manage our products through Django's built-in admin interface, we need to create a superuser account.
 
-## The Django Admin app
-We will have to make our model exist on the admin dashboard in-built into Django. To do this, we shall to create a superuser to access the admin dashboard.
-
-Run the following command
+Run the following command:
 
 ```sh
 python manage.py createsuperuser
 ```
 
-Let us re-run our server and navigate to **http://localhost:8000/admin**. Login with your created superuser and you will see the following.
+Restart your server and navigate to **http://localhost:8000/admin**. Log in with your superuser credentials. You should see the Django admin dashboard:
 
 ![django admin](./imgs/django%20admin.png)
 
-Create a product like this
+Create a product through the admin interface:
 
 ![create product](./imgs/create%20product.png)
 
-Save Product
+After saving, you'll see the product listed:
 
 ![Saved product](./imgs/product%20added.png)
 
-Add as many products as you may want.
+Add as many products as you need for testing.
 
-## Build the CRUD
+## Building the CRUD Endpoints
 
-Let us start by building the CRUD.
+### Read (List) Items
+Let's start by implementing the endpoint for listing all product items.
 
 ```py
 # products/views.py
@@ -217,15 +208,15 @@ from .models import Product
 
 @api_view(["GET"])
 def product_list(request): 
-    products = Product.objects.
+    products = Product.objects.all()
     ...
 
 # ... more api views here
 ```
 
-Under our `product_list` view, is gonna be a query to return all products from the db. We need to serailize that list of database model objects into JSON which we shall then provide to clients.
+In our `product_list` view, we query the database to retrieve all products. However, we need to serialize these database objects into JSON format so clients can consume the data.
 
-Let us create a new file **serializers.py** in the current **products** app. 
+Create a new file called **serializers.py** in the **products** app:
 
 ```py
 from .models import Product
@@ -236,14 +227,15 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
-
 ```
 
-We have created a class called the `ProductSerializer` class whose responsibility is to serialize Product model objects to JSON. DRF provides the `serializers.ModelSerializer` class that makes it easy to do so.
+The `ProductSerializer` class is responsible for converting Product model instances to JSON. Django REST Framework's `ModelSerializer` base class simplifies this process significantly.
 
-Let us now modify the view to return a reponse with the data.
+Now modify the view to return a properly serialized response:
 
 ```py
+# products/views.py
+
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -261,8 +253,160 @@ def product_list(request):
     return Response(data=serializer.data, status=200)
 ```
 
-What we have done here is to create a `ProductSerializer` instance with the queryset object we have got from the database, we have added the `many` argument because we want to rturn a list of `Product`s.
+We instantiate `ProductSerializer` with our queryset and set `many=True` because we're serializing a list of products. The serializer converts the data to JSON format.
 
-Let us now navigate to **http://localhost:8000/products**
+Navigate to **http://localhost:8000/products** to see the list:
 
 ![List all products](./imgs/lis%20all%20products.png)
+
+### Create Item
+Let's create a dedicated serializer for adding products. This allows us to specify which fields users can submit when creating a product:
+
+```py
+
+# products/serializers.py
+
+from .models import Product
+from rest_framework import serializers
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = "__all__"
+
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ["name", "description", "price", "stock"]
+```
+
+The `ProductCreateSerializer` specifies exactly which fields are required for product creation, similar to a form.
+
+Update your views to implement the create endpoint:
+
+```py
+# products/views.py
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import ProductSerializer, ProductCreateSerializer
+from .models import Product
+
+# Create your views here.
+
+# ... more code here
+
+@api_view(["POST"])
+def product_create(request):
+    serializer = ProductCreateSerializer(request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            data={
+                "message": "Product added successfully",
+                "data": serializer.data
+            }, 
+            status=status.HTTP_201_CREATED
+        )
+    return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+```
+
+This endpoint receives data from the client, validates it through `ProductCreateSerializer`, and saves it if valid. If validation fails, it returns error details.
+
+Navigate to **http://localhost:8000/products/create** to test the endpoint:
+
+![product create on browsable API DRF](./imgs/product%20create%20browsable%20API%20DRF.png)
+
+Django REST Framework provides a user-friendly interface for testing API endpoints. If you submit invalid data, you'll see validation errors:
+
+![product create on browsable API with errors](./imgs/product%20create%20browsable%20API%20with%20errors.png)
+
+Submitting valid data returns a successful response:
+
+![product create on browsable API successful](./imgs/product%20create%20success.png)
+
+### Read (Retrieve) an Item
+To retrieve an item by id we shall add the following code to our products **views.py**
+
+```py
+# products/views.py
+
+# ... other code here
+@api_view(["GET"])
+def product_detail(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+        serializer = ProductSerializer(product)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    except Product.DoesNotExist:
+        return Response(
+            data={"error": "Product Not Found"}, status=status.HTTP_404_NOT_FOUND
+        )
+```
+
+To retrieve an item (product), we shall first of all query the database to return an item with the given `pk` and use our `ProductSerializer` class to then turn that into the response data (JSON). If not found, we shall return an error ith a status code of 404 not found else we return a successful response with the item.
+
+To test this, let us navigate to **http://localhost:8000/products/1**.
+
+![retrieve product on Browsable API](./imgs/get%20product%20by%20ID.png)
+
+Let us try to get an item for an ID that does not exist in the database.
+
+![retrieve non existent item](./imgs/get%20non%20existent%20product.png)
+
+### Update an item
+Let us add the following code to our views. 
+
+```py
+@api_view(["PATCH"])
+def product_update(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+        data = request.data
+        serializer = ProductCreateSerializer(data=data, instance=product)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                data={
+                    "message": "Product updated successfully",
+                    "data": serializer.data,
+                }
+            )
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    except Product.DoesNotExist:
+        return Response(
+            data={"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND
+        )
+```
+
+The code above will get the product with the `pk` and if not found, we shall return an error to show that the product is not found. we then get the update data `data` from the request object and create an instance of the `ProductCreateSerializer` (you can create another serializer for updating according to what you choose) , we then follow a process similar to what we had in the creation where we check if the serializer is valid and save else we show any validation errors raised.
+
+Testing it out will look like this.
+![updating the product](./imgs/Successful%20update.png)
+
+### Delete an item
+To delete an item is simple, all we have to do is to query for the item, delete it and returning the appropriate status code.
+
+```py
+# products/views.py
+
+@api_view(["DELETE"])
+def product_delete(request, pk):
+    try:
+        product = Product.objects.get(pk=pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except:
+        return Response(
+            data={"error": "Product does not exist"}, status=status.HTTP_404_NOT_FOUND
+        )
+```
+

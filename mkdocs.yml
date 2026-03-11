@@ -2,7 +2,7 @@ site_name: Building APIs With Django REST Framework
 nav:
   - Introduction: index.md
   - Setting Up a project: chapter2.md
-  - Building a Simple API: chapter3.md
+  - Your first API Endpoint: chapter3.md
   - Building a CRUD API: chapter4.md
 theme:
   name: material
