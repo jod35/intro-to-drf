@@ -15,13 +15,13 @@ Django by default offers responses as templates but DRF simplifies rsponses by r
 
 ## What django REST Framework provides
 
-1. Serializers
+### **Serializers**
 Serializers convert python objects to formats understandable by applications i.e JSON. 
 
 ![json from serializer ](./imgs/Screenshot%202026-03-08%20112242.png)
 
-2. API Views
-We can implment both function based and class based views to handle common HTTP methods like
+### **API Views**
+We can implement both function based and class based views to handle common HTTP methods like
 
 - **GET** : Retrieve data
 - **POST**: Create data 
@@ -29,33 +29,39 @@ We can implment both function based and class based views to handle common HTTP 
 - **PUT**: Update data
 - **DELETE**: Remove data
 
-3. Authentication
+### **Authentication**
 DRF build on top of the Django authentication application toimplement common auth flows like
+
 - Session based authentication
 - Token authentication 
 - JWT authentication
 
 Authentication allows users to identify themselves so that they can get access to protected parts of an application.
 
-4. Authorization
-   DRF provides classes or mixins for controlling who gets access to what in an application.
-   Forexample:
-    - Only authenticated users can access a certain resource
-    - Only users having a certain role can access or perform a certain action
+### **Authorization**
+DRF provides classes or mixins for controlling who gets access to what in an application.
 
-5. The browsable API
-    You are always required to have an API client so you can test and document what your APIs do, But with DRF, there is an in-built browsable API. A tool that simplifies how you mke requests to your API and how you document it. Very useful in development.
+Forexample:
 
-6. Pagination , filtering, throttling
-   - **Pagination**: Return results as pages
-   - **Filtering**: Helps you query data easily
-   - **Throttling**: Limits how many requests users make    
+- Only authenticated users can access a certain resource
+- Only users having a certain role can access or perform a certain action
+
+### **The browsable API**
+
+You are always required to have an API client so you can test and document what your APIs do, But with DRF, there is an in-built browsable API. A tool that simplifies how you mke requests to your API and how you document it. Very useful in development.
+
+### **Pagination , filtering, throttling**
+
+- **Pagination**: Return results as pages
+- **Filtering**: Helps you query data easily
+- **Throttling**: Limits how many requests users make    
 
 ## REST
 DRF follows the architectural pattern known as [REST](https://en.wikipedia.org/wiki/REST)
 
 REST in full is Representation State Transfer. In REST, 
-- resources are repreneted as URLs.
+
+- resources are represented as URLs.
 - HTTP methods point to actions on those resources
 
 In our little product management API, 

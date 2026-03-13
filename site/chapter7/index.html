@@ -1,0 +1,904 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../chapter6/">
+      
+      
+        <link rel="next" href="../chapter8/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Authentication - APIs With Django</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#authentication-and-authorization-in-django-rest-framework" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="APIs With Django" class="md-header__button md-logo" aria-label="APIs With Django" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            APIs With Django
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Authentication
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="red" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="red" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="APIs With Django" class="md-nav__button md-logo" aria-label="APIs With Django" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    APIs With Django
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setting Up a project
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Your first API Endpoint
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building a CRUD API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter5/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Class Based Views
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter6/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pagination, Filtering and Throttling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#authentication-and-authorization-in-django-rest-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication and Authorization in Django Rest Framework
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#token-based-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token-Based Authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Token-Based Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conceptual-implementation-and-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptual Implementation and Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json-web-token-jwt-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Web Token (JWT) Authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON Web Token (JWT) Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-anatomy-of-a-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Anatomy of a JWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-jwt-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The JWT Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-jwt-management-with-simple-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced JWT Management with Simple JWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chapter8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#authentication-and-authorization-in-django-rest-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Authentication and Authorization in Django Rest Framework
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#token-based-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Token-Based Authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Token-Based Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conceptual-implementation-and-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptual Implementation and Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource Protection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#json-web-token-jwt-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        JSON Web Token (JWT) Authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="JSON Web Token (JWT) Authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-anatomy-of-a-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Anatomy of a JWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-jwt-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The JWT Lifecycle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-jwt-management-with-simple-jwt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced JWT Management with Simple JWT
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Authentication</h1>
+
+<h2 id="authentication-and-authorization-in-django-rest-framework">Authentication and Authorization in Django Rest Framework</h2>
+<p>Authentication is the fundamental process of identifying the user making a request to an API. By associating each incoming request with a specific set of identifying credentials, an application can determine whether to grant or restrict access to its various resources.</p>
+<p>It is important to distinguish this from <strong>Authorization</strong> (or Permissions), which determines what an authenticated user is actually allowed to do.</p>
+<p>Django Rest Framework (DRF) is designed with a highly modular authentication system. It provides several built-in schemes that cater to common web development needs, while simultaneously offering the flexibility to implement custom authentication logic for specialized requirements.</p>
+<h2 id="token-based-authentication">Token-Based Authentication</h2>
+<p>Token Authentication is a stateless mechanism where a client proves its identity by presenting a unique, secret string known as a "token." Unlike session-based authentication, which often relies on browser cookies and server-side state, Token Authentication is ideal for cross-platform APIs, including mobile applications and third-party integrations. By using tokens, users avoid sending sensitive credentials like usernames and passwords with every single request.</p>
+<h3 id="conceptual-implementation-and-workflow">Conceptual Implementation and Workflow</h3>
+<p>Setting up Token Authentication in DRF involves a few key architectural steps:</p>
+<ol>
+<li><strong>Project Configuration</strong>: The authentication system must be registered within the project's global settings. This includes adding the framework's internal authentication app to the list of installed applications and defining the default authentication schemes the project should utilize.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># ... other apps</span>
+    <span class="c1"># third party apps</span>
+    <span class="s2">"rest_framework"</span><span class="p">,</span>
+    <span class="s2">"rest_framework.authtoken"</span><span class="p">,</span>
+    <span class="s2">"django_filters"</span>
+<span class="p">]</span>
+
+<span class="c1"># ... other settings</span>
+
+<span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"DEFAULT_AUTHENTICATION_CLASSES"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"rest_framework.authentication.TokenAuthentication"</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li><strong>Authentication Classes</strong>: You can specify that the project should prioritize <code>TokenAuthentication</code>. This ensures that for every incoming request, the framework attempts to validate the credentials against the database's token records.</li>
+<li><strong>Token Generation</strong>: Each user requires a unique token. These can be generated manually via the command-line interface.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>python3<span class="w"> </span>manage.py<span class="w"> </span>drf<span class="w"> </span>create_token<span class="w"> </span>&lt;username&gt;
+</code></pre></div>
+<p>Alternatively, this process can be automated through the use of <strong>Signals</strong>. A common best practice is to attach a signal to the User model, ensuring that every time a new account is created, a corresponding authentication token is automatically provisioned.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># in a signals.py</span>
+<span class="c1"># from django.conf import settings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models.signals</span><span class="w"> </span><span class="kn">import</span> <span class="n">post_save</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.dispatch</span><span class="w"> </span><span class="kn">import</span> <span class="n">receiver</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.authtoken.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Token</span>
+
+<span class="n">User</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span>
+
+<span class="nd">@receiver</span><span class="p">(</span><span class="n">post_save</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">User</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_auth_token</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">created</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">created</span><span class="p">:</span>
+        <span class="n">Token</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">instance</span><span class="p">)</span> 
+</code></pre></div>
+<ol>
+<li><strong>The Authorization Header</strong>: Once a token is acquired, the client must include it in the headers of every request. The standard format uses the <code>Authorization</code> header, prefixed by the word <code>Token</code>, followed by the secret string itself.</li>
+<li><strong>Acquiring Tokens</strong>: For a client to receive their token initially, the API must expose a specific endpoint geared toward credential exchange. When a user provides valid login details (username and password) to this endpoint, the server responds with their unique token.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1"># ... other code here</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.authtoken.views</span><span class="w"> </span><span class="kn">import</span> <span class="n">obtain_auth_token</span>
+
+<span class="c1"># ... other code here</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"admin/"</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">HelloWorldView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"hello_world"</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"products/"</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s2">"products.urls"</span><span class="p">)),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"auth/token"</span><span class="p">,</span><span class="n">obtain_auth_token</span><span class="p">)</span> <span class="c1"># add this</span>
+<span class="p">]</span>
+</code></pre></div>
+<h3 id="resource-protection">Resource Protection</h3>
+<p>Endpoints are secured by applying <strong>Permission Classes</strong> to the views. For instance, using the <code>IsAuthenticated</code> class ensures that only requests with a valid, verified token can access the underlying data or perform actions.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ProductListCreateView</span><span class="p">(</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
+    <span class="n">queryset</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ProductSerializer</span>
+    <span class="n">filter_backends</span> <span class="o">=</span><span class="p">[</span><span class="n">DjangoFilterBackend</span><span class="p">]</span>
+    <span class="n">filterset_class</span> <span class="o">=</span> <span class="n">ItemFilter</span>
+    <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">]</span>
+</code></pre></div>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/no-auth.png" data-desc-position="bottom"><img alt="Unauthorized request attempt" src="../imgs/no-auth.png"></a></p>
+<p><em>When an unauthenticated request attempts to access a protected resource, the server responds with a 401 Unauthorized or 403 Forbidden status.</em></p>
+<p>The process of obtaining a token usually happens at a dedicated authentication path, such as <code>/auth/token</code>.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/get%20token.png" data-desc-position="bottom"><img alt="Process of obtaining an authentication token" src="../imgs/get%20token.png"></a></p>
+<p>Once the client has safely stored the token, it can be passed in subsequent requests to gain access to restricted parts of the API.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/request%20with%20auth%20token.png" data-desc-position="bottom"><img alt="Successful request using an authentication token" src="../imgs/request%20with%20auth%20token.png"></a></p>
+<h2 id="json-web-token-jwt-authentication">JSON Web Token (JWT) Authentication</h2>
+<p>JSON Web Token (JWT) authentication represents a more modern and highly scalable approach to security. Often pronounced "jot," a JWT is a compact, URL-safe means of representing claims to be transferred between two parties. The primary advantage of JWTs is that they are self-contained; they carry all the necessary user information within the token itself, allowing the server to verify the user without querying the database for every single request.</p>
+<h3 id="the-anatomy-of-a-jwt">The Anatomy of a JWT</h3>
+<p>A JWT is composed of three distinct parts, each separated by a dot (<code>.</code>):</p>
+<ul>
+<li><strong>Header</strong>: This section defines the metadata for the token, specifying the type of token (JWT) and the signing algorithm being used (such as HMAC SHA256 or RSA).</li>
+<li><strong>Payload</strong>: The payload contains the "claims." These are statements about the user and additional data, such as the user ID or expiration time. While this data is encoded and protected against tampering, it is not encrypted, meaning sensitive data should not be stored here.</li>
+<li><strong>Signature</strong>: The signature is the most critical security component. It is created by taking the encoded header, the encoded payload, and a secret key known only to the server, then running them through the specified algorithm. This ensures that the token remains valid and has not been altered during transit.</li>
+</ul>
+<p>The resulting structure consistently follows the format: <code>header.payload.signature</code>.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/example%20token.png" data-desc-position="bottom"><img alt="Visual representation of a JSON Web Token structure" src="../imgs/example%20token.png"></a></p>
+<h3 id="the-jwt-lifecycle">The JWT Lifecycle</h3>
+<ol>
+<li><strong>Authentication</strong>: The client logs in by providing credentials to the server.</li>
+<li><strong>Issuance</strong>: Upon verification, the server issues a JWT. The client typically receives a pair of tokens: an <strong>Access Token</strong> and a <strong>Refresh Token</strong>.</li>
+<li><strong>Transmission</strong>: For all subsequent requests, the client includes the access token in the <code>Authorization</code> header, using the <code>Bearer</code> prefix (e.g., <code>Bearer &lt;token&gt;</code>).</li>
+<li><strong>Verification</strong>: The server receives the token, verifies the signature to ensure authenticity, checks the expiration date, and extracts the user's information from the payload to process the request.</li>
+</ol>
+<h3 id="advanced-jwt-management-with-simple-jwt">Advanced JWT Management with Simple JWT</h3>
+<p>In the Django ecosystem, the <code>Simple JWT</code> library is the industry standard for implementing this flow. It streamlines the process of managing token issuance, verification, and rotation.</p>
+<p>To begin, the library must be installed and configured within the project's authentication settings.</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>djangorestframework-simplejwt
+</code></pre></div>
+<p>After installation, incorporate the <code>JWTAuthentication</code> class into your settings.</p>
+<div class="highlight"><pre><span></span><code><span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># ... other settings</span>
+
+    <span class="s2">"DEFAULT_AUTHENTICATION_CLASSES"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="c1"># "rest_framework.authentication.TokenAuthentication",</span>
+        <span class="s2">"rest_framework_simplejwt.authentication.JWTAuthentication"</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The library provides pre-built views to handle various token operations, which should be mapped to appropriate URL patterns.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># core/urls.py </span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework_simplejwt.views</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TokenObtainPairView</span><span class="p">,</span> 
+    <span class="n">TokenRefreshView</span><span class="p">,</span> 
+    <span class="n">TokenVerifyView</span><span class="p">,</span> 
+    <span class="n">TokenBlacklistView</span>
+<span class="p">)</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"admin/"</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+
+    <span class="c1"># ... other URLs</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"login/"</span><span class="p">,</span> <span class="n">TokenObtainPairView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"get_access_token"</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"refresh_token"</span><span class="p">,</span> <span class="n">TokenRefreshView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"refresh_token"</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"verify_token/"</span><span class="p">,</span> <span class="n">TokenVerifyView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"verify_token"</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"blacklist_token/"</span><span class="p">,</span><span class="n">TokenBlacklistView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">'blacklist_token'</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+<ul>
+<li><strong>Access vs. Refresh Tokens</strong>: Access tokens are intentionaly short-lived to minimize the window of opportunity if a token is stolen. Refresh tokens have a longer lifespan and are used solely to obtain a new access token without requiring the user to re-enter their password.</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/create%20token%20pair.png" data-desc-position="bottom"><img alt="Generating a new JWT token pair" src="../imgs/create%20token%20pair.png"></a></p>
+<p><em>The initial login returns both access and refresh tokens to the client.</em></p>
+<ul>
+<li><strong>Token Verification</strong>: Specialized views allow clients to check if a token is still valid without performing an actual resource request.</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/verify%20token%20validity.png" data-desc-position="bottom"><img alt="Verifying token validity" src="../imgs/verify%20token%20validity.png"></a></p>
+<p><em>Clients can use dedicated endpoints to verify that their current token is still active and valid.</em></p>
+<ul>
+<li><strong>Token Blacklisting</strong>: For enhanced security, refresh tokens can be "blacklisted." This is essential for logout functionality or for revoking access if an account is compromised, ensuring that once a token is blacklisted, it can no longer be used to generate new access tokens.</li>
+</ul>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/obtain%20new%20token%20with%20refresh.png" data-desc-position="bottom"><img alt="Refreshing an expired access token" src="../imgs/obtain%20new%20token%20with%20refresh.png"></a></p>
+<p><em>When an access token expires, the refresh token allows the client to stay logged in seamlessly.</em></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/blacklist%20token.png" data-desc-position="bottom"><img alt="Blacklisting a token for security" src="../imgs/blacklist%20token.png"></a></p>
+<p><em>Blacklisting ensures that a specific refresh token is permanently invalidated.</em></p>
+<p>By utilizing these comprehensive authentication schemes, developers can build robust, secure APIs that scale efficiently while providing a seamless experience for end-users.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

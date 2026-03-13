@@ -7,6 +7,7 @@ nav:
   - Class Based Views: chapter5.md
   - Pagination, Filtering and Throttling: chapter6.md
   - Authentication: chapter7.md
+  - API Integration: chapter8.md
 theme:
   name: material
   palette:
