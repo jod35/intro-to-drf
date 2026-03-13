@@ -5,6 +5,7 @@ nav:
   - Your first API Endpoint: chapter3.md
   - Building a CRUD API: chapter4.md
   - Class Based Views: chapter5.md
+  - Pagination, Sorting, Filtering and Throttling: chapter6.md
 theme:
   name: material
   palette:

@@ -221,3 +221,40 @@ class ProductRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
         return super().get_serializer_class()
 
 ```
+
+We shall implement the same in our **products/urls.py**
+
+```py
+# products/urls.py
+from django.urls import path
+from .views import (
+    ProductListCreateView,
+    ProductRetrieveUpdateDestroyView,
+)
+
+urlpatterns = [
+    path("", ProductListCreateView.as_view(), name="product-list-create"),
+    path(
+        "<int:pk>/",
+        ProductRetrieveUpdateDestroyView.as_view(),
+        name="product-retrieve-update-destroy",
+    ),
+]
+```
+
+This will update our API to be RESTful. Our endpoints will look like this.
+
+| Endpoints | HTTP Method | Description |
+| --- | --- | --- |
+| /products/ | GET | List all products |
+| /products/ | POST | Create a new product |
+| /products/{id}/ | GET | Retrieve a specific product |
+| /products/{id}/ | PUT | Update a specific product |
+| /products/{id}/ | PATCH | Partially update a specific product |
+| /products/{id}/ | DELETE | Delete a specific product |
+
+
+Exercise: 
+
+1. Observe the Browsable API to see how Django Rest Framework provides a user-friendly interface for interacting with your API.
+2. Try out the different HTTP methods to see how they work. 

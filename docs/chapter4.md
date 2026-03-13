@@ -21,7 +21,6 @@ For a REST API, we should design endpoints using CRUD principles. Here's how we 
 | **Retrieve** | GET | `/api/v1/products` | List all products |
 | **Retrieve** | GET | `/api/v1/products/<item_id>` | Get a specific product |
 | **Create** | POST | `/api/v1/products/create` | Create a new product |
-| **Update** | PATCH | `/api/v1/products/<item_id>/partially-update` | Partially update a product |
 | **Update** | PUT | `/api/v1/products/<item_id>/update` | Fully update a product |
 | **Delete** | DELETE | `/api/v1/products/<item_id>/delete` | Delete a product |
 
