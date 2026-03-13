@@ -1,11 +1,12 @@
-site_name: Building APIs With Django REST Framework
+site_name: APIs With Django
 nav:
   - Introduction: index.md
   - Setting Up a project: chapter2.md
   - Your first API Endpoint: chapter3.md
   - Building a CRUD API: chapter4.md
   - Class Based Views: chapter5.md
-  - Pagination, Sorting, Filtering and Throttling: chapter6.md
+  - Pagination, Filtering and Throttling: chapter6.md
+  - Authentication: chapter7.md
 theme:
   name: material
   palette:

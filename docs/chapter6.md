@@ -154,3 +154,26 @@ class ProductListCreateView(ListCreateAPIView):
 ```
 
 With such a setup, you can be able to perform much more complex filtering like `http://127.0.0.1:8000/products/?name=toyota&max_price=120000`
+
+## Throttling
+Throttling is the technique used to limit how many requests clients will make to an API during a certain period of time. This will prevent your server from being overloaded and will allow fair usage by your users.
+
+To set this up in a Django application, you need to do the following. 
+
+```py
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    }
+}
+```
+
+In this simple example we are preventing both anonymous (unauthenticated) users and authenticated ones from not making an amount of requests a day. (100 for anon, 1000 for users).
+
+We can also do so per **minute**, **hour**, **sec**. (d/ h / m / s)
+

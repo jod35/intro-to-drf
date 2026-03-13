@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.authtoken.views import obtain_auth_token
 
 
 class HelloWorldView(APIView):
@@ -30,4 +31,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", HelloWorldView.as_view(), name="hello_world"),
     path("products/", include("products.urls")),
+    path("auth/token",obtain_auth_token)
 ]

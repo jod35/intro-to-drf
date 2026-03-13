@@ -2,6 +2,7 @@ from rest_framework.generics import (
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView,
 )
+from rest_framework.permissions import IsAuthenticated
 from .serializers import ProductSerializer, ProductCreateSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 import django_filters
@@ -24,6 +25,7 @@ class ProductListCreateView(ListCreateAPIView):
     serializer_class = ProductSerializer
     filter_backends =[DjangoFilterBackend]
     filterset_class = ItemFilter
+    permission_classes = [IsAuthenticated]
 
 
     def get_serializer_class(self):
