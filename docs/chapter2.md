@@ -11,7 +11,7 @@ Create a new folder anywhere on your file system and name it `product-inventory`
 Create a virtual environment using the following command:
 
 ```sh
-c:\Users\jod35\product-inventory> python -m venv env
+python -m venv env
 ```
 
 This creates a new folder called **env** in your project directory.
@@ -21,7 +21,7 @@ Activate the environment with the appropriate command for your operating system.
 
 On Windows:
 ```sh
-c:\Users\jod35\product-inventory> env\Scripts\activate
+env\Scripts\activate
 ```
 
 On Linux or Unix-based systems:

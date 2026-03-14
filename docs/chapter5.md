@@ -141,7 +141,7 @@ urlpatterns = [
 ## Generic Views
 DRF's generic views further reduce boilerplate by automating common patterns. They integrate with your models and serializers to handle standard operations. Customize them to fit your specific requirements and business logic.
 
-Let us modify the views in **products/views.py** to have this 
+Let us modify the views in **products/views.py** to look like this:
 
 ```py
 
@@ -185,10 +185,9 @@ class ProductDeleteView(DestroyAPIView):
     serializer_class = ProductSerializer
 ```
 
-We have in-built classes like the `CreateAPIView`, `ListAPIView`, `RetrieveAPIView`, `UpdateAPIView` and `DeleteAPIView`. The only have to be pointed to a model and the right serializer and your CRUD will be built.
+We have built-in classes like `CreateAPIView`, `ListAPIView`, `RetrieveAPIView`, `UpdateAPIView`, and `DestroyAPIView`. They only have to be pointed to a model and the right serializer, and your CRUD functionality will be built.
 
-## REST-style Endpoints
-Remember we have not yet achieved the proper RESTful way of defining our endpoints. So let us achieve that with DRF. Let us further modify the views to look like this.
+Recall that we haven't yet achieved the standard RESTful way of defining our endpoints. Let's implement that with DRF by further modifying the views.
 
 ```py
 # products/views.py 
@@ -244,7 +243,7 @@ urlpatterns = [
 
 This will update our API to be RESTful. Our endpoints will look like this.
 
-| Endpoints | HTTP Method | Description |
+| Endpoint | HTTP Method | Description |
 | --- | --- | --- |
 | /products/ | GET | List all products |
 | /products/ | POST | Create a new product |
@@ -254,7 +253,7 @@ This will update our API to be RESTful. Our endpoints will look like this.
 | /products/{id}/ | DELETE | Delete a specific product |
 
 
-Exercise: 
+Exercise:
 
-1. Observe the Browsable API to see how Django Rest Framework provides a user-friendly interface for interacting with your API.
-2. Try out the different HTTP methods to see how they work. 
+1. Observe the Browsable API to see how Django REST Framework provides a user-friendly interface for interacting with your API.
+2. Try out the different HTTP methods to see how they work.

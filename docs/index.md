@@ -1,7 +1,7 @@
 # Building APIs with the Django REST Framework
 
 ## What is the Django REST Framework?
-The Django rest framework is a powerful set of tools that enables developers build APIs on top of the applications they build with Django. It helps developers expose data and functionality of a Django web application to other applications over the internet.
+The Django REST Framework is a powerful set of tools that enables developers to build APIs on top of the applications they build with Django. It helps developers expose the data and functionality of a Django web application to other applications over the internet.
 
 Such apps include:
 
@@ -11,28 +11,28 @@ Such apps include:
 - other APIs
 - Third party integrations
 
-Django by default offers responses as templates but DRF simplifies rsponses by returning JSON, a format that can be consumed by may applications in many platforms.
+Django by default offers responses as templates, but DRF simplifies responses by returning JSON—a format that can be consumed by many applications on many platforms.
 
 ## What django REST Framework provides
 
 ### **Serializers**
-Serializers convert python objects to formats understandable by applications i.e JSON. 
+Serializers convert Python objects to formats understandable by other applications, e.g., JSON. 
 
 ![json from serializer ](./imgs/Screenshot%202026-03-08%20112242.png)
 
 ### **API Views**
-We can implement both function based and class based views to handle common HTTP methods like
+We can implement both function-based and class-based views to handle common HTTP methods like:
 
-- **GET** : Retrieve data
+- **GET**: Retrieve data
 - **POST**: Create data 
-- **PATCH**: partially update data
+- **PATCH**: Partially update data
 - **PUT**: Update data
 - **DELETE**: Remove data
 
 ### **Authentication**
-DRF build on top of the Django authentication application toimplement common auth flows like
+DRF builds on top of the Django authentication application to implement common auth flows like:
 
-- Session based authentication
+- Session-based authentication
 - Token authentication 
 - JWT authentication
 
@@ -41,36 +41,36 @@ Authentication allows users to identify themselves so that they can get access t
 ### **Authorization**
 DRF provides classes or mixins for controlling who gets access to what in an application.
 
-Forexample:
+For example:
 
-- Only authenticated users can access a certain resource
-- Only users having a certain role can access or perform a certain action
+- Only authenticated users can access a certain resource.
+- Only users having a certain role can access or perform a certain action.
 
 ### **The browsable API**
 
-You are always required to have an API client so you can test and document what your APIs do, But with DRF, there is an in-built browsable API. A tool that simplifies how you mke requests to your API and how you document it. Very useful in development.
+You are often required to have an API client to test and document what your APIs do, but with DRF, there is an in-built browsable API—a tool that simplifies how you make requests to your API and how you document it. This is very useful during development.
 
-### **Pagination , filtering, throttling**
+### **Pagination, filtering, throttling**
 
-- **Pagination**: Return results as pages
+- **Pagination**: Return results in pages
 - **Filtering**: Helps you query data easily
-- **Throttling**: Limits how many requests users make    
+- **Throttling**: Limits how many requests users can make    
 
 ## REST
 DRF follows the architectural pattern known as [REST](https://en.wikipedia.org/wiki/REST)
 
-REST in full is Representation State Transfer. In REST, 
+REST stands for Representational State Transfer. In REST:
 
 - resources are represented as URLs.
 - HTTP methods point to actions on those resources
 
 In our little product management API, 
 
-| Method | endpoint | description |
+| Method | Endpoint | Description |
 |---|---|---|
-| GET     | /api/v1/products |  get all products |
-| GET  | /api/v1/products/1 | get all products |
-| POST  | /api/v1/products |  get all products |
-| PATCH | /api/v1/products/1  | partially update a product |
-| PUT | /api/v1/products/1 | update a products | 
-| DELETE | /api/v1/products/1  | delete a product |
+| GET     | /api/v1/products |  Get all products |
+| GET  | /api/v1/products/1 | Get a product by ID |
+| POST  | /api/v1/products |  Create a product |
+| PATCH | /api/v1/products/1  | Partially update a product |
+| PUT | /api/v1/products/1 | Update a product | 
+| DELETE | /api/v1/products/1  | Delete a product |

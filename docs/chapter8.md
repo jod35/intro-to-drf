@@ -1,5 +1,5 @@
 # API Integration
-APIs are used to communicate between different applications. You will always find yourself using APIs to get data from other applications or to send data to other applications.  
+APIs are used to facilitate communication between different applications. You will frequently find yourself using APIs to retrieve data from or send data to other applications.
 
 ## How to get data from an API
 
@@ -14,8 +14,7 @@ There are many different API clients available for Python. Some of the most popu
 - [aiohttp](https://docs.aiohttp.org/en/stable/)
 
 
-## A more complex example
-Here is a simple example of how to get data from an Jokes API in Python.
+Here is a simple example of how to retrieve data from a Joke API in Python.
 
 ```py
 import requests
@@ -25,7 +24,7 @@ response = requests.get("https://v2.jokeapi.dev/joke/Programming", headers={"Acc
 print(response.json())
 ```
 
-If your goal is to put these API calls to a view, then it is better you encapsulate your code into a function or a class
+If you intend to use these API calls within a view, it is best to encapsulate your code into a function or a class:
 
 ```py
 import requests
@@ -33,7 +32,7 @@ from requests.exceptions import RequestException
 
 # joke service
 class JokeAPI:
-    URL = "https://v2.jokeapi.dev/joke/Programming
+    URL = "https://v2.jokeapi.dev/joke/Programming"
 
     def get_joke(self):
         try:
@@ -41,7 +40,7 @@ class JokeAPI:
             response.raise_for_status()
             return response.json()
         except RequestException as e:
-            raise VaueError(f"Failed to get joke: {str(e)}")
+            raise ValueError(f"Failed to get joke: {str(e)}")
 
 # joke view
 class JokeAPIView(APIView):
@@ -58,4 +57,4 @@ class JokeAPIView(APIView):
 
 ## Conclusion
 
-APIs are everywhere and you will use them a lot in your career as a developer. They are great way to allow developers build apps on top of your data or your functionality. I hope this simple presentation has taught you a thing or two about APIs
+APIs are everywhere, and you will use them extensively throughout your career as a developer. They are a powerful way to allow others to build applications on top of your data or functionality. I hope this introduction has been helpful!

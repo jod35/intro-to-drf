@@ -52,9 +52,9 @@ INSTALLED_APPS = [
 
 Visit **http://localhost:8000** to see your API response:
 
-![browsable API with hello World response](./imgs/hello.png)
+![Browsable API with Hello World response](./imgs/hello.png)
 
 And just like that, we have created our first API route.
 
 ### Exercise
-Create two API routes of your choice that return a response
+Create two API routes of your choice that return a response.

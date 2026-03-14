@@ -57,7 +57,7 @@ REST_FRAMEWORK = {
 ## Filtering
 
 ### Basic Filtering with Querysets
-DRF's list views by default will return all items but you can modify their behavior overriding the `get_queryset` method of the view class.
+By default, DRF's list views return all items, but you can modify this behavior by overriding the `get_queryset` method of the view class.
 
 ```py
 
@@ -77,7 +77,7 @@ class ProductListCreateView(ListCreateAPIView):
         )
 ```
 
-For example we can filter our products based on their names using query parameters.
+For example, we can filter our products based on their names using query parameters:
 
 ```py
 # products/views.py
@@ -95,11 +95,11 @@ class ProductListCreateView(ListCreateAPIView):
 
         name = self.request.GET.get('name')
         if name is not None:
-            query = query.filter(name__icontains = name)
+            query = query.filter(name__icontains=name)
         return query
 ```
 
-That will filter our products to list those with a name that is the same as what we provide in the query param.
+This will filter our products to list only those whose name contains the string provided in the query parameter.
 
 ### Complex Filters with Django-Filter
 For more advanced filtering, we can employ the **Django-Filter** package. To set it up we can install it with
@@ -143,7 +143,7 @@ class ItemFilter(django_filters.FilterSet):
 class ProductListCreateView(ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends =[DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend]
     filterset_class = ItemFilter
 
     def get_serializer_class(self):
@@ -153,14 +153,13 @@ class ProductListCreateView(ListCreateAPIView):
 
 ```
 
-With such a setup, you can be able to perform much more complex filtering like `http://127.0.0.1:8000/products/?name=toyota&max_price=120000`
+With this setup, you can perform more complex filtering, such as: `http://127.0.0.1:8000/products/?name=toyota&max_price=120000`
 
 ## Throttling
-Throttling is the technique used to limit how many requests clients will make to an API during a certain period of time. This will prevent your server from being overloaded and will allow fair usage by your users.
+Throttling is a technique used to limit the number of requests a client can make to an API within a specified period. This prevents your server from being overloaded and ensures fair usage among users.
 
-To set this up in a Django application, you need to do the following. 
-
-```py
+To set this up in a Django application, add the following to your `settings.py`:
+```python
 REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
@@ -173,7 +172,6 @@ REST_FRAMEWORK = {
 }
 ```
 
-In this simple example we are preventing both anonymous (unauthenticated) users and authenticated ones from not making an amount of requests a day. (100 for anon, 1000 for users).
+In this example, we are limiting both anonymous (unauthenticated) and authenticated users to a certain number of requests per day (100 for anonymous, 1,000 for authenticated).
 
-We can also do so per **minute**, **hour**, **sec**. (d/ h / m / s)
-
+Rates can be defined per **second**, **minute**, **hour**, or **day** (s, m, h, d).

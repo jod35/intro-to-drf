@@ -1,4 +1,4 @@
-## Authentication and Authorization in Django Rest Framework
+# Authentication and Authorization in Django REST Framework
 
 Authentication is the fundamental process of identifying the user making a request to an API. By associating each incoming request with a specific set of identifying credentials, an application can determine whether to grant or restrict access to its various resources.
 
@@ -46,11 +46,7 @@ Alternatively, this process can be automated through the use of **Signals**. A c
 
 ```py
 # in a signals.py
-# from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from rest_framework.authtoken.models import Token
-
+from django.conf import settings
 User = settings.AUTH_USER_MODEL
 
 @receiver(post_save, sender=User)
@@ -72,7 +68,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", HelloWorldView.as_view(), name="hello_world"),
     path("products/", include("products.urls")),
-    path("auth/token",obtain_auth_token) # add this
+    path("auth/token/", obtain_auth_token) # add this
 ]
 ```
 
@@ -84,7 +80,7 @@ Endpoints are secured by applying **Permission Classes** to the views. For insta
 class ProductListCreateView(ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends =[DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend]
     filterset_class = ItemFilter
     permission_classes = [IsAuthenticated]
 ```
@@ -164,13 +160,13 @@ urlpatterns = [
 
     # ... other URLs
     path("login/", TokenObtainPairView.as_view(), name="get_access_token"),
-    path("refresh_token", TokenRefreshView.as_view(), name="refresh_token"),
+    path("refresh_token/", TokenRefreshView.as_view(), name="refresh_token"),
     path("verify_token/", TokenVerifyView.as_view(), name="verify_token"),
-    path("blacklist_token/",TokenBlacklistView.as_view(),name='blacklist_token')
+    path("blacklist_token/", TokenBlacklistView.as_view(), name='blacklist_token')
 ]
 ```
 
-*   **Access vs. Refresh Tokens**: Access tokens are intentionaly short-lived to minimize the window of opportunity if a token is stolen. Refresh tokens have a longer lifespan and are used solely to obtain a new access token without requiring the user to re-enter their password.
+*   **Access vs. Refresh Tokens**: Access tokens are intentionally short-lived to minimize the window of opportunity if a token is stolen. Refresh tokens have a longer lifespan and are used solely to obtain a new access token without requiring the user to re-enter their password.
 
 ![Generating a new JWT token pair](./imgs/create%20token%20pair.png)
 

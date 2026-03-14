@@ -210,7 +210,7 @@ def product_list(request):
     products = Product.objects.all()
     ...
 
-# ... more api views here
+# ... more API views here
 ```
 
 In our `product_list` view, we query the database to retrieve all products. However, we need to serialize these database objects into JSON format so clients can consume the data.
@@ -280,7 +280,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         fields = ["name", "description", "price", "stock"]
 ```
 
-The `ProductCreateSerializer` specifies exactly which fields are required for product creation, similar to a form.
+The `ProductCreateSerializer` specifies exactly which fields are required for product creation, similar to how a form works.
 
 Update your views to implement the create endpoint:
 
@@ -299,7 +299,7 @@ from .models import Product
 
 @api_view(["POST"])
 def product_create(request):
-    serializer = ProductCreateSerializer(request.data)
+    serializer = ProductCreateSerializer(data=request.data)
 
     if serializer.is_valid():
         serializer.save()
@@ -317,15 +317,15 @@ This endpoint receives data from the client, validates it through `ProductCreate
 
 Navigate to **http://localhost:8000/api/products/create** to test the endpoint:
 
-![product create on browsable API DRF](./imgs/product%20create%20browsable%20API%20DRF.png)
+![Product create on Browsable API DRF](./imgs/product%20create%20browsable%20API%20DRF.png)
 
 Django REST Framework provides a user-friendly interface for testing API endpoints. If you submit invalid data, you'll see validation errors:
 
-![product create on browsable API with errors](./imgs/product%20create%20browsable%20API%20with%20errors.png)
+![Product create on Browsable API with errors](./imgs/product%20create%20browsable%20API%20with%20errors.png)
 
 Submitting valid data returns a successful response:
 
-![product create on browsable API successful](./imgs/product%20create%20success.png)
+![Product create on Browsable API successful](./imgs/product%20create%20success.png)
 
 ### Read (Retrieve) an Item
 To retrieve an item by ID, add the following code to **products/views.py**:
@@ -352,11 +352,11 @@ To retrieve an item, we query the database for a product with the given `pk` and
 
 To test this endpoint, navigate to **http://localhost:8000/api/products/1**:
 
-![retrieve product on Browsable API](./imgs/get%20product%20by%20ID.png)
+![Retrieve product on Browsable API](./imgs/get%20product%20by%20ID.png)
 
 Now let's test retrieving a product with an ID that doesn't exist in the database:
 
-![retrieve non-existent item](./imgs/get%20non%20existent%20product.png)
+![Retrieve non-existent item](./imgs/get%20non%20existent%20product.png)
 
 ### Update an Item
 Add the following code to your views:
@@ -389,7 +389,7 @@ This view retrieves the product with the given `pk`. If not found, it returns a 
 
 Testing the update endpoint looks like this:
 
-![updating the product](./imgs/Successful%20update.png)
+![Updating the product](./imgs/Successful%20update.png)
 
 ### Delete an Item
 To delete an item, query for it, delete it, and return the appropriate status code:
