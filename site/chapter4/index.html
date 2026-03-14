@@ -945,7 +945,7 @@
     <span class="n">products</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="o">...</span>
 
-<span class="c1"># ... more api views here</span>
+<span class="c1"># ... more API views here</span>
 </code></pre></div>
 <p>In our <code>product_list</code> view, we query the database to retrieve all products. However, we need to serialize these database objects into JSON format so clients can consume the data.</p>
 <p>Create a new file called <strong>serializers.py</strong> in the <strong>products</strong> app:</p>
@@ -1000,7 +1000,7 @@
         <span class="n">model</span> <span class="o">=</span> <span class="n">Product</span>
         <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"description"</span><span class="p">,</span> <span class="s2">"price"</span><span class="p">,</span> <span class="s2">"stock"</span><span class="p">]</span>
 </code></pre></div>
-<p>The <code>ProductCreateSerializer</code> specifies exactly which fields are required for product creation, similar to a form.</p>
+<p>The <code>ProductCreateSerializer</code> specifies exactly which fields are required for product creation, similar to how a form works.</p>
 <p>Update your views to implement the create endpoint:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># products/views.py</span>
 
@@ -1016,7 +1016,7 @@
 
 <span class="nd">@api_view</span><span class="p">([</span><span class="s2">"POST"</span><span class="p">])</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">product_create</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="n">serializer</span> <span class="o">=</span> <span class="n">ProductCreateSerializer</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">serializer</span> <span class="o">=</span> <span class="n">ProductCreateSerializer</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">serializer</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
         <span class="n">serializer</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -1031,11 +1031,11 @@
 </code></pre></div>
 <p>This endpoint receives data from the client, validates it through <code>ProductCreateSerializer</code>, and saves it if valid. If validation fails, it returns error details.</p>
 <p>Navigate to <strong>http://localhost:8000/api/products/create</strong> to test the endpoint:</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/product%20create%20browsable%20API%20DRF.png" data-desc-position="bottom"><img alt="product create on browsable API DRF" src="../imgs/product%20create%20browsable%20API%20DRF.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/product%20create%20browsable%20API%20DRF.png" data-desc-position="bottom"><img alt="Product create on Browsable API DRF" src="../imgs/product%20create%20browsable%20API%20DRF.png"></a></p>
 <p>Django REST Framework provides a user-friendly interface for testing API endpoints. If you submit invalid data, you'll see validation errors:</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/product%20create%20browsable%20API%20with%20errors.png" data-desc-position="bottom"><img alt="product create on browsable API with errors" src="../imgs/product%20create%20browsable%20API%20with%20errors.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/product%20create%20browsable%20API%20with%20errors.png" data-desc-position="bottom"><img alt="Product create on Browsable API with errors" src="../imgs/product%20create%20browsable%20API%20with%20errors.png"></a></p>
 <p>Submitting valid data returns a successful response:</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/product%20create%20success.png" data-desc-position="bottom"><img alt="product create on browsable API successful" src="../imgs/product%20create%20success.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/product%20create%20success.png" data-desc-position="bottom"><img alt="Product create on Browsable API successful" src="../imgs/product%20create%20success.png"></a></p>
 <h3 id="read-retrieve-an-item">Read (Retrieve) an Item</h3>
 <p>To retrieve an item by ID, add the following code to <strong>products/views.py</strong>:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># products/views.py</span>
@@ -1056,9 +1056,9 @@
 </code></pre></div>
 <p>To retrieve an item, we query the database for a product with the given <code>pk</code> and use our <code>ProductSerializer</code> class to convert it to JSON format. If the product is not found, we return an error with a 404 status code; otherwise, we return a successful response with the item.</p>
 <p>To test this endpoint, navigate to <strong>http://localhost:8000/api/products/1</strong>:</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/get%20product%20by%20ID.png" data-desc-position="bottom"><img alt="retrieve product on Browsable API" src="../imgs/get%20product%20by%20ID.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/get%20product%20by%20ID.png" data-desc-position="bottom"><img alt="Retrieve product on Browsable API" src="../imgs/get%20product%20by%20ID.png"></a></p>
 <p>Now let's test retrieving a product with an ID that doesn't exist in the database:</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/get%20non%20existent%20product.png" data-desc-position="bottom"><img alt="retrieve non-existent item" src="../imgs/get%20non%20existent%20product.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/get%20non%20existent%20product.png" data-desc-position="bottom"><img alt="Retrieve non-existent item" src="../imgs/get%20non%20existent%20product.png"></a></p>
 <h3 id="update-an-item">Update an Item</h3>
 <p>Add the following code to your views:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@api_view</span><span class="p">([</span><span class="s2">"PATCH"</span><span class="p">])</span>
@@ -1085,7 +1085,7 @@
 </code></pre></div>
 <p>This view retrieves the product with the given <code>pk</code>. If not found, it returns a 404 error. Otherwise, it validates the update data using <code>ProductCreateSerializer</code>. If valid, it saves the changes and returns a success response; otherwise, it returns any validation errors.</p>
 <p>Testing the update endpoint looks like this:</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/Successful%20update.png" data-desc-position="bottom"><img alt="updating the product" src="../imgs/Successful%20update.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/Successful%20update.png" data-desc-position="bottom"><img alt="Updating the product" src="../imgs/Successful%20update.png"></a></p>
 <h3 id="delete-an-item">Delete an Item</h3>
 <p>To delete an item, query for it, delete it, and return the appropriate status code:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># products/views.py</span>

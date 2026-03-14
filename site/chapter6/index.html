@@ -715,7 +715,7 @@
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/page%20number%20pagination.png" data-desc-position="bottom"><img alt="page number pagination" src="../imgs/page%20number%20pagination.png"></a></p>
 <h2 id="filtering">Filtering</h2>
 <h3 id="basic-filtering-with-querysets">Basic Filtering with Querysets</h3>
-<p>DRF's list views by default will return all items but you can modify their behavior overriding the <code>get_queryset</code> method of the view class.</p>
+<p>By default, DRF's list views return all items, but you can modify this behavior by overriding the <code>get_queryset</code> method of the view class.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># products/views.py</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ProductListCreateView</span><span class="p">(</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
     <span class="n">queryset</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
@@ -731,7 +731,7 @@
             <span class="c1"># add your filters here</span>
         <span class="p">)</span>
 </code></pre></div>
-<p>For example we can filter our products based on their names using query parameters.</p>
+<p>For example, we can filter our products based on their names using query parameters:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># products/views.py</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ProductListCreateView</span><span class="p">(</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
     <span class="n">queryset</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s1">'-id'</span><span class="p">)</span>
@@ -747,10 +747,10 @@
 
         <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name__icontains</span> <span class="o">=</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">name__icontains</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">query</span>
 </code></pre></div>
-<p>That will filter our products to list those with a name that is the same as what we provide in the query param.</p>
+<p>This will filter our products to list only those whose name contains the string provided in the query parameter.</p>
 <h3 id="complex-filters-with-django-filter">Complex Filters with Django-Filter</h3>
 <p>For more advanced filtering, we can employ the <strong>Django-Filter</strong> package. To set it up we can install it with</p>
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>django-filter
@@ -784,7 +784,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">ProductListCreateView</span><span class="p">(</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
     <span class="n">queryset</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ProductSerializer</span>
-    <span class="n">filter_backends</span> <span class="o">=</span><span class="p">[</span><span class="n">DjangoFilterBackend</span><span class="p">]</span>
+    <span class="n">filter_backends</span> <span class="o">=</span> <span class="p">[</span><span class="n">DjangoFilterBackend</span><span class="p">]</span>
     <span class="n">filterset_class</span> <span class="o">=</span> <span class="n">ItemFilter</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_serializer_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -792,11 +792,11 @@
             <span class="k">return</span> <span class="n">ProductCreateSerializer</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_serializer_class</span><span class="p">()</span>
 </code></pre></div>
-<p>With such a setup, you can be able to perform much more complex filtering like <code>http://127.0.0.1:8000/products/?name=toyota&amp;max_price=120000</code></p>
+<p>With this setup, you can perform more complex filtering, such as: <code>http://127.0.0.1:8000/products/?name=toyota&amp;max_price=120000</code></p>
 <h2 id="throttling">Throttling</h2>
-<p>Throttling is the technique used to limit how many requests clients will make to an API during a certain period of time. This will prevent your server from being overloaded and will allow fair usage by your users.</p>
-<p>To set this up in a Django application, you need to do the following. </p>
-<div class="highlight"><pre><span></span><code><span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="p">{</span>
+<p>Throttling is a technique used to limit the number of requests a client can make to an API within a specified period. This prevents your server from being overloaded and ensures fair usage among users.</p>
+<p>To set this up in a Django application, add the following to your <code>settings.py</code>:
+</p><div class="highlight"><pre><span></span><code><span class="n">REST_FRAMEWORK</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">'DEFAULT_THROTTLE_CLASSES'</span><span class="p">:</span> <span class="p">[</span>
         <span class="s1">'rest_framework.throttling.AnonRateThrottle'</span><span class="p">,</span>
         <span class="s1">'rest_framework.throttling.UserRateThrottle'</span>
@@ -806,9 +806,9 @@
         <span class="s1">'user'</span><span class="p">:</span> <span class="s1">'1000/day'</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-<p>In this simple example we are preventing both anonymous (unauthenticated) users and authenticated ones from not making an amount of requests a day. (100 for anon, 1000 for users).</p>
-<p>We can also do so per <strong>minute</strong>, <strong>hour</strong>, <strong>sec</strong>. (d/ h / m / s)</p>
+</code></pre></div><p></p>
+<p>In this example, we are limiting both anonymous (unauthenticated) and authenticated users to a certain number of requests per day (100 for anonymous, 1,000 for authenticated).</p>
+<p>Rates can be defined per <strong>second</strong>, <strong>minute</strong>, <strong>hour</strong>, or <strong>day</strong> (s, m, h, d).</p>
 
 
 

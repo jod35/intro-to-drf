@@ -410,17 +410,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#rest-style-endpoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        REST-style Endpoints
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -580,17 +569,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#rest-style-endpoints" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        REST-style Endpoints
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -732,7 +710,7 @@
 </code></pre></div>
 <h2 id="generic-views">Generic Views</h2>
 <p>DRF's generic views further reduce boilerplate by automating common patterns. They integrate with your models and serializers to handle standard operations. Customize them to fit your specific requirements and business logic.</p>
-<p>Let us modify the views in <strong>products/views.py</strong> to have this </p>
+<p>Let us modify the views in <strong>products/views.py</strong> to look like this:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># products/views.py</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.generics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -772,9 +750,8 @@
     <span class="n">queryset</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ProductSerializer</span>
 </code></pre></div>
-<p>We have in-built classes like the <code>CreateAPIView</code>, <code>ListAPIView</code>, <code>RetrieveAPIView</code>, <code>UpdateAPIView</code> and <code>DeleteAPIView</code>. The only have to be pointed to a model and the right serializer and your CRUD will be built.</p>
-<h2 id="rest-style-endpoints">REST-style Endpoints</h2>
-<p>Remember we have not yet achieved the proper RESTful way of defining our endpoints. So let us achieve that with DRF. Let us further modify the views to look like this.</p>
+<p>We have built-in classes like <code>CreateAPIView</code>, <code>ListAPIView</code>, <code>RetrieveAPIView</code>, <code>UpdateAPIView</code>, and <code>DestroyAPIView</code>. They only have to be pointed to a model and the right serializer, and your CRUD functionality will be built.</p>
+<p>Recall that we haven't yet achieved the standard RESTful way of defining our endpoints. Let's implement that with DRF by further modifying the views.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># products/views.py </span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.generics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -825,7 +802,7 @@
 <table>
 <thead>
 <tr>
-<th>Endpoints</th>
+<th>Endpoint</th>
 <th>HTTP Method</th>
 <th>Description</th>
 </tr>
@@ -863,10 +840,10 @@
 </tr>
 </tbody>
 </table>
-<p>Exercise: </p>
+<p>Exercise:</p>
 <ol>
-<li>Observe the Browsable API to see how Django Rest Framework provides a user-friendly interface for interacting with your API.</li>
-<li>Try out the different HTTP methods to see how they work. </li>
+<li>Observe the Browsable API to see how Django REST Framework provides a user-friendly interface for interacting with your API.</li>
+<li>Try out the different HTTP methods to see how they work.</li>
 </ol>
 
 

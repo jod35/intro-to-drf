@@ -338,7 +338,7 @@
   <a href="#pagination-filtering-throttling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pagination , filtering, throttling
+        Pagination, filtering, throttling
       
     </span>
   </a>
@@ -666,7 +666,7 @@
   <a href="#pagination-filtering-throttling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pagination , filtering, throttling
+        Pagination, filtering, throttling
       
     </span>
   </a>
@@ -708,7 +708,7 @@
 
 <h1 id="building-apis-with-the-django-rest-framework">Building APIs with the Django REST Framework</h1>
 <h2 id="what-is-the-django-rest-framework">What is the Django REST Framework?</h2>
-<p>The Django rest framework is a powerful set of tools that enables developers build APIs on top of the applications they build with Django. It helps developers expose data and functionality of a Django web application to other applications over the internet.</p>
+<p>The Django REST Framework is a powerful set of tools that enables developers to build APIs on top of the applications they build with Django. It helps developers expose the data and functionality of a Django web application to other applications over the internet.</p>
 <p>Such apps include:</p>
 <ul>
 <li>web apps (built with JS frameworks)</li>
@@ -717,46 +717,46 @@
 <li>other APIs</li>
 <li>Third party integrations</li>
 </ul>
-<p>Django by default offers responses as templates but DRF simplifies rsponses by returning JSON, a format that can be consumed by may applications in many platforms.</p>
+<p>Django by default offers responses as templates, but DRF simplifies responses by returning JSON—a format that can be consumed by many applications on many platforms.</p>
 <h2 id="what-django-rest-framework-provides">What django REST Framework provides</h2>
 <h3 id="serializers"><strong>Serializers</strong></h3>
-<p>Serializers convert python objects to formats understandable by applications i.e JSON. </p>
+<p>Serializers convert Python objects to formats understandable by other applications, e.g., JSON. </p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="imgs/Screenshot%202026-03-08%20112242.png" data-desc-position="bottom"><img alt="json from serializer " src="imgs/Screenshot%202026-03-08%20112242.png"></a></p>
 <h3 id="api-views"><strong>API Views</strong></h3>
-<p>We can implement both function based and class based views to handle common HTTP methods like</p>
+<p>We can implement both function-based and class-based views to handle common HTTP methods like:</p>
 <ul>
-<li><strong>GET</strong> : Retrieve data</li>
+<li><strong>GET</strong>: Retrieve data</li>
 <li><strong>POST</strong>: Create data </li>
-<li><strong>PATCH</strong>: partially update data</li>
+<li><strong>PATCH</strong>: Partially update data</li>
 <li><strong>PUT</strong>: Update data</li>
 <li><strong>DELETE</strong>: Remove data</li>
 </ul>
 <h3 id="authentication"><strong>Authentication</strong></h3>
-<p>DRF build on top of the Django authentication application toimplement common auth flows like</p>
+<p>DRF builds on top of the Django authentication application to implement common auth flows like:</p>
 <ul>
-<li>Session based authentication</li>
+<li>Session-based authentication</li>
 <li>Token authentication </li>
 <li>JWT authentication</li>
 </ul>
 <p>Authentication allows users to identify themselves so that they can get access to protected parts of an application.</p>
 <h3 id="authorization"><strong>Authorization</strong></h3>
 <p>DRF provides classes or mixins for controlling who gets access to what in an application.</p>
-<p>Forexample:</p>
+<p>For example:</p>
 <ul>
-<li>Only authenticated users can access a certain resource</li>
-<li>Only users having a certain role can access or perform a certain action</li>
+<li>Only authenticated users can access a certain resource.</li>
+<li>Only users having a certain role can access or perform a certain action.</li>
 </ul>
 <h3 id="the-browsable-api"><strong>The browsable API</strong></h3>
-<p>You are always required to have an API client so you can test and document what your APIs do, But with DRF, there is an in-built browsable API. A tool that simplifies how you mke requests to your API and how you document it. Very useful in development.</p>
-<h3 id="pagination-filtering-throttling"><strong>Pagination , filtering, throttling</strong></h3>
+<p>You are often required to have an API client to test and document what your APIs do, but with DRF, there is an in-built browsable API—a tool that simplifies how you make requests to your API and how you document it. This is very useful during development.</p>
+<h3 id="pagination-filtering-throttling"><strong>Pagination, filtering, throttling</strong></h3>
 <ul>
-<li><strong>Pagination</strong>: Return results as pages</li>
+<li><strong>Pagination</strong>: Return results in pages</li>
 <li><strong>Filtering</strong>: Helps you query data easily</li>
-<li><strong>Throttling</strong>: Limits how many requests users make    </li>
+<li><strong>Throttling</strong>: Limits how many requests users can make    </li>
 </ul>
 <h2 id="rest">REST</h2>
 <p>DRF follows the architectural pattern known as <a href="https://en.wikipedia.org/wiki/REST">REST</a></p>
-<p>REST in full is Representation State Transfer. In REST, </p>
+<p>REST stands for Representational State Transfer. In REST:</p>
 <ul>
 <li>resources are represented as URLs.</li>
 <li>HTTP methods point to actions on those resources</li>
@@ -766,40 +766,40 @@
 <thead>
 <tr>
 <th>Method</th>
-<th>endpoint</th>
-<th>description</th>
+<th>Endpoint</th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>GET</td>
 <td>/api/v1/products</td>
-<td>get all products</td>
+<td>Get all products</td>
 </tr>
 <tr>
 <td>GET</td>
 <td>/api/v1/products/1</td>
-<td>get all products</td>
+<td>Get a product by ID</td>
 </tr>
 <tr>
 <td>POST</td>
 <td>/api/v1/products</td>
-<td>get all products</td>
+<td>Create a product</td>
 </tr>
 <tr>
 <td>PATCH</td>
 <td>/api/v1/products/1</td>
-<td>partially update a product</td>
+<td>Partially update a product</td>
 </tr>
 <tr>
 <td>PUT</td>
 <td>/api/v1/products/1</td>
-<td>update a products</td>
+<td>Update a product</td>
 </tr>
 <tr>
 <td>DELETE</td>
 <td>/api/v1/products/1</td>
-<td>delete a product</td>
+<td>Delete a product</td>
 </tr>
 </tbody>
 </table>

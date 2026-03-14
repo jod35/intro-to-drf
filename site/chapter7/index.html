@@ -367,6 +367,8 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -409,23 +411,14 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#authentication-and-authorization-in-django-rest-framework" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Authentication and Authorization in Django Rest Framework
-      
-    </span>
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#token-based-authentication" class="md-nav__link">
@@ -568,23 +561,14 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#authentication-and-authorization-in-django-rest-framework" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Authentication and Authorization in Django Rest Framework
-      
-    </span>
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#token-based-authentication" class="md-nav__link">
@@ -692,9 +676,7 @@
 
 
 
-  <h1>Authentication</h1>
-
-<h2 id="authentication-and-authorization-in-django-rest-framework">Authentication and Authorization in Django Rest Framework</h2>
+<h1 id="authentication-and-authorization-in-django-rest-framework">Authentication and Authorization in Django REST Framework</h1>
 <p>Authentication is the fundamental process of identifying the user making a request to an API. By associating each incoming request with a specific set of identifying credentials, an application can determine whether to grant or restrict access to its various resources.</p>
 <p>It is important to distinguish this from <strong>Authorization</strong> (or Permissions), which determines what an authenticated user is actually allowed to do.</p>
 <p>Django Rest Framework (DRF) is designed with a highly modular authentication system. It provides several built-in schemes that cater to common web development needs, while simultaneously offering the flexibility to implement custom authentication logic for specialized requirements.</p>
@@ -729,11 +711,7 @@
 </code></pre></div>
 <p>Alternatively, this process can be automated through the use of <strong>Signals</strong>. A common best practice is to attach a signal to the User model, ensuring that every time a new account is created, a corresponding authentication token is automatically provisioned.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># in a signals.py</span>
-<span class="c1"># from django.conf import settings</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.db.models.signals</span><span class="w"> </span><span class="kn">import</span> <span class="n">post_save</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">django.dispatch</span><span class="w"> </span><span class="kn">import</span> <span class="n">receiver</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rest_framework.authtoken.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">Token</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">django.conf</span><span class="w"> </span><span class="kn">import</span> <span class="n">settings</span>
 <span class="n">User</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">AUTH_USER_MODEL</span>
 
 <span class="nd">@receiver</span><span class="p">(</span><span class="n">post_save</span><span class="p">,</span> <span class="n">sender</span><span class="o">=</span><span class="n">User</span><span class="p">)</span>
@@ -754,7 +732,7 @@
     <span class="n">path</span><span class="p">(</span><span class="s2">"admin/"</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
     <span class="n">path</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">HelloWorldView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"hello_world"</span><span class="p">),</span>
     <span class="n">path</span><span class="p">(</span><span class="s2">"products/"</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s2">"products.urls"</span><span class="p">)),</span>
-    <span class="n">path</span><span class="p">(</span><span class="s2">"auth/token"</span><span class="p">,</span><span class="n">obtain_auth_token</span><span class="p">)</span> <span class="c1"># add this</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"auth/token/"</span><span class="p">,</span> <span class="n">obtain_auth_token</span><span class="p">)</span> <span class="c1"># add this</span>
 <span class="p">]</span>
 </code></pre></div>
 <h3 id="resource-protection">Resource Protection</h3>
@@ -762,7 +740,7 @@
 <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ProductListCreateView</span><span class="p">(</span><span class="n">ListCreateAPIView</span><span class="p">):</span>
     <span class="n">queryset</span> <span class="o">=</span> <span class="n">Product</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
     <span class="n">serializer_class</span> <span class="o">=</span> <span class="n">ProductSerializer</span>
-    <span class="n">filter_backends</span> <span class="o">=</span><span class="p">[</span><span class="n">DjangoFilterBackend</span><span class="p">]</span>
+    <span class="n">filter_backends</span> <span class="o">=</span> <span class="p">[</span><span class="n">DjangoFilterBackend</span><span class="p">]</span>
     <span class="n">filterset_class</span> <span class="o">=</span> <span class="n">ItemFilter</span>
     <span class="n">permission_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">IsAuthenticated</span><span class="p">]</span>
 </code></pre></div>
@@ -820,13 +798,13 @@
 
     <span class="c1"># ... other URLs</span>
     <span class="n">path</span><span class="p">(</span><span class="s2">"login/"</span><span class="p">,</span> <span class="n">TokenObtainPairView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"get_access_token"</span><span class="p">),</span>
-    <span class="n">path</span><span class="p">(</span><span class="s2">"refresh_token"</span><span class="p">,</span> <span class="n">TokenRefreshView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"refresh_token"</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"refresh_token/"</span><span class="p">,</span> <span class="n">TokenRefreshView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"refresh_token"</span><span class="p">),</span>
     <span class="n">path</span><span class="p">(</span><span class="s2">"verify_token/"</span><span class="p">,</span> <span class="n">TokenVerifyView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">"verify_token"</span><span class="p">),</span>
-    <span class="n">path</span><span class="p">(</span><span class="s2">"blacklist_token/"</span><span class="p">,</span><span class="n">TokenBlacklistView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span><span class="n">name</span><span class="o">=</span><span class="s1">'blacklist_token'</span><span class="p">)</span>
+    <span class="n">path</span><span class="p">(</span><span class="s2">"blacklist_token/"</span><span class="p">,</span> <span class="n">TokenBlacklistView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">'blacklist_token'</span><span class="p">)</span>
 <span class="p">]</span>
 </code></pre></div>
 <ul>
-<li><strong>Access vs. Refresh Tokens</strong>: Access tokens are intentionaly short-lived to minimize the window of opportunity if a token is stolen. Refresh tokens have a longer lifespan and are used solely to obtain a new access token without requiring the user to re-enter their password.</li>
+<li><strong>Access vs. Refresh Tokens</strong>: Access tokens are intentionally short-lived to minimize the window of opportunity if a token is stolen. Refresh tokens have a longer lifespan and are used solely to obtain a new access token without requiring the user to re-enter their password.</li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/create%20token%20pair.png" data-desc-position="bottom"><img alt="Generating a new JWT token pair" src="../imgs/create%20token%20pair.png"></a></p>
 <p><em>The initial login returns both access and refresh tokens to the client.</em></p>
