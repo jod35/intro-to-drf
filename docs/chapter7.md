@@ -178,13 +178,38 @@ urlpatterns = [
 
 *Clients can use dedicated endpoints to verify that their current token is still active and valid.*
 
-*   **Token Blacklisting**: For enhanced security, refresh tokens can be "blacklisted." This is essential for logout functionality or for revoking access if an account is compromised, ensuring that once a token is blacklisted, it can no longer be used to generate new access tokens.
+**Token Blacklisting**: For enhanced security, refresh tokens can be "blacklisted." This is essential for logout functionality or for revoking access if an account is compromised, ensuring that once a token is blacklisted, it can no longer be used to generate new access tokens.
+   
+You should also add the following steps to implement token blacklisting.
+
+1. Add the following to your installed apps list.
+
+```py
+# core/settings.py
+
+INSTALLED_APPS =[
+    # ... other apps
+
+    # third-party apps
+    "rest_framework",
+    "rest_framework.authtoken",
+    'rest_framework_simplejwt.token_blacklist', # add this
+    "django_filters",
+]
+```
+2. Apply the migrations in your terminal / CLI
+
+```sh
+python manage.py migrate
+```
+
 
 ![Refreshing an expired access token](./imgs/obtain%20new%20token%20with%20refresh.png)
 
 *When an access token expires, the refresh token allows the client to stay logged in seamlessly.*
 
 ![Blacklisting a token for security](./imgs/blacklist%20token.png)
+
 
 *Blacklisting ensures that a specific refresh token is permanently invalidated.*
 
