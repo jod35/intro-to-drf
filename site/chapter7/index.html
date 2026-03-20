@@ -813,9 +813,26 @@
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/verify%20token%20validity.png" data-desc-position="bottom"><img alt="Verifying token validity" src="../imgs/verify%20token%20validity.png"></a></p>
 <p><em>Clients can use dedicated endpoints to verify that their current token is still active and valid.</em></p>
-<ul>
-<li><strong>Token Blacklisting</strong>: For enhanced security, refresh tokens can be "blacklisted." This is essential for logout functionality or for revoking access if an account is compromised, ensuring that once a token is blacklisted, it can no longer be used to generate new access tokens.</li>
-</ul>
+<p><strong>Token Blacklisting</strong>: For enhanced security, refresh tokens can be "blacklisted." This is essential for logout functionality or for revoking access if an account is compromised, ensuring that once a token is blacklisted, it can no longer be used to generate new access tokens.</p>
+<p>You should also add the following steps to implement token blacklisting.</p>
+<ol>
+<li>Add the following to your installed apps list.</li>
+</ol>
+<p></p><div class="highlight"><pre><span></span><code><span class="c1"># core/settings.py</span>
+
+<span class="n">INSTALLED_APPS</span> <span class="o">=</span><span class="p">[</span>
+    <span class="c1"># ... other apps</span>
+
+    <span class="c1"># third-party apps</span>
+    <span class="s2">"rest_framework"</span><span class="p">,</span>
+    <span class="s2">"rest_framework.authtoken"</span><span class="p">,</span>
+    <span class="s1">'rest_framework_simplejwt.token_blacklist'</span><span class="p">,</span> <span class="c1"># add this</span>
+    <span class="s2">"django_filters"</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+2. Apply the migrations in your terminal / CLI<p></p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+</code></pre></div>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/obtain%20new%20token%20with%20refresh.png" data-desc-position="bottom"><img alt="Refreshing an expired access token" src="../imgs/obtain%20new%20token%20with%20refresh.png"></a></p>
 <p><em>When an access token expires, the refresh token allows the client to stay logged in seamlessly.</em></p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="../imgs/blacklist%20token.png" data-desc-position="bottom"><img alt="Blacklisting a token for security" src="../imgs/blacklist%20token.png"></a></p>
